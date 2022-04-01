@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script src="/pyodide/build/pyodide.js"></script>
+  <script language="javascript" type="text/javascript" src="/editarea/edit_area/edit_area_full.js"></script>
+  <script language="javascript" type="text/javascript">
+    editAreaLoader.init({
+      id: "code"		// textarea id
+      , syntax: "python"			// syntax to be uses for highgliting
+      , start_highlight: true		// to display with highlight mode on start-up
+      , fullscreen: true
+      , toolbar: "save"
+      , save_callback: 'run'
+    });
+    function run() {
+      document.pyodide.runPython(editAreaLoader.getValue("code"));
+    }
+  </script>
+</head>
+
+<body>
+  <script type="text/javascript">
+    async function main() {
+      let pyodide = await loadPyodide({
+        indexURL: "/pyodide/build/"
+      });
+      await pyodide.loadPackage("requests");
+      await pyodide.loadPackage("micropip");
+      await pyodide.runPythonAsync(`
+             import micropip
+             await micropip.install('/beproduct-0.6.6-py3-none-any.whl')
+         `);
+      document.pyodide = pyodide;
+    }
+    main();
+  </script>
+  <form method="post">
+    <textarea id="code" name="content" cols="80" rows="15">
+      from beproduct.sdk import BeProduct
+
+      client_id = 'client_id'
+      client_secret = 'client_secret'
+      refresh_token = 'refresh_token'
+      company = 'company_domain'
+
+      client = BeProduct(client_id=client_id,
+      client_secret=client_secret,
+      refresh_token=refresh_token,
+      company_domain=company)
+
+
+      header_id = '2943751a-771d-42b1-83a5-ef4497b1fed0'
+      print(client.style.attributes_get(header_id));
+    </textarea>
+  </form>
+  <button onclick='console.log(pyodide.runPython(editAreaLoader.getValue("code")))'>Run</button>
+</body>
+
+</html>

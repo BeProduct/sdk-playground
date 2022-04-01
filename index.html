@@ -37,21 +37,21 @@
   </script>
   <form method="post">
     <textarea id="code" name="content" cols="80" rows="15">
-      from beproduct.sdk import BeProduct
+from beproduct.sdk import BeProduct
 
-      client_id = 'client_id'
-      client_secret = 'client_secret'
-      refresh_token = 'refresh_token'
-      company = 'company_domain'
+client_id = 'client_id'
+client_secret = 'client_secret'
+refresh_token = 'refresh_token'
+company = 'company_domain'
 
-      client = BeProduct(client_id=client_id,
-      client_secret=client_secret,
-      refresh_token=refresh_token,
-      company_domain=company)
+client = BeProduct(client_id=client_id,
+client_secret=client_secret,
+refresh_token=refresh_token,
+company_domain=company)
 
 
-      header_id = '2943751a-771d-42b1-83a5-ef4497b1fed0'
-      print(client.style.attributes_get(header_id));
+header_id = '2943751a-771d-42b1-83a5-ef4497b1fed0'
+print(client.style.attributes_get(header_id));
     </textarea>
   </form>
   <button onclick='console.log(pyodide.runPython(editAreaLoader.getValue("code")))'>Run</button>
